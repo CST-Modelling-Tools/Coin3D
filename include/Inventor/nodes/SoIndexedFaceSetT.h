@@ -32,60 +32,55 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#ifndef COIN_INTERNAL
-#error this is a private header file
-#endif /* !COIN_INTERNAL */
+#include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/nodes/SoIndexedShape.h>
 
-#include <Inventor/lists/SbList.h>
-#include <Inventor/system/gl.h>
-#include <Inventor/C/glue/gl.h>
-#include <stdlib.h>
+#ifndef SO_END_FACE_INDEX // also defined in SoVRMLIndexedFaceSet.h
+#define SO_END_FACE_INDEX (-1)
+#endif // !SO_END_FACE_INDEX
 
-class SoVBO;
+class SoIndexedFaceSetTP;
 
-class SoVertexArrayIndexer {
+class COIN_DLL_API SoIndexedFaceSetT : public SoIndexedShape {
+  typedef SoIndexedShape inherited;
+
+  SO_NODE_HEADER(SoIndexedFaceSetT);
+
 public:
-  SoVertexArrayIndexer(void);
-  ~SoVertexArrayIndexer();
+  static void initClass(void);
+  SoIndexedFaceSetT(void);
+  int m_renderCount;
 
-  void addTriangle(const int32_t v0,
-                   const int32_t v1,
-                   const int32_t v2);
-  void addLine(const int32_t v0,
-               const int32_t v1);
-  void addPoint(const int32_t v0);
+  virtual void GLRender(SoGLRenderAction * action);
+  virtual void getPrimitiveCount(SoGetPrimitiveCountAction * action);
 
+  virtual SbBool generateDefaultNormals(SoState * state,
+                                        SoNormalBundle * bundle);
+  virtual SbBool generateDefaultNormals(SoState * state,
+                                        SoNormalCache * cache);
 
-  void addQuad(const int32_t v0,
-               const int32_t v1,
-               const int32_t v2,
-               const int32_t v3);
+protected:
+  virtual ~SoIndexedFaceSetT();
 
-  void beginTarget(GLenum target);
-  void targetVertex(GLenum target, const int32_t v);
-  void endTarget(GLenum target);
-
-  void close(void);
-  void render(const cc_glglue * glue, const SbBool renderasvbo, const uint32_t vbocontextid);
-
-  int getNumVertices(void);
-  int getNumIndices(void) const;
-  const GLint * getIndices(void) const;
-  GLint * getWriteableIndices(void);
+  virtual void generatePrimitives(SoAction * action);
 
 private:
-  void addIndex(int32_t i);
-  void sort_triangles(void);
-  void sort_lines(void);
-  SoVertexArrayIndexer * getNext(void);
+  enum Binding {
+    OVERALL = 0,
+    PER_FACE,
+    PER_FACE_INDEXED,
+    PER_VERTEX,
+    PER_VERTEX_INDEXED,
+    NONE = OVERALL
+  };
 
-  GLenum target;
-  SoVertexArrayIndexer * next;
+  SbBool useConvexCache(SoAction * action,
+                        const SbVec3f * normals,
+                        const int32_t * nindices,
+                        const SbBool normalsfromcache);
+  Binding findMaterialBinding(SoState * const state) const;
+  Binding findNormalBinding(SoState * const state) const;
+  virtual void notify(SoNotList * list);
 
-  int targetcounter;
-  SbList <GLsizei> countarray;
-  SbList <const GLint *> ciarray;
-  SbList <GLint> indexarray;
-  SoVBO * vbo;
-  SbBool use_shorts;
+  SoIndexedFaceSetTP * pimpl;
 };

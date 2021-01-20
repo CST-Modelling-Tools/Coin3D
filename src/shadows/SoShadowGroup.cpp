@@ -356,8 +356,8 @@ public:
   {
     const cc_glglue * glue = cc_glglue_instance(SoGLCacheContextElement::get(state));
 
-    GLint maxsize = 2048;
-    GLint maxtexsize = 2048;
+    GLint maxsize = 4096;
+    GLint maxtexsize = 4096;
 
     // Testing for maximum proxy texture size doesn't seem to work, so
     // we just have to hardcode the maximum size to 2048 for now.  We
@@ -1407,6 +1407,7 @@ SoShadowGroupP::setVertexShader(SoState * state)
   int i;
   SoShaderGenerator & gen = this->vertexgenerator;
   gen.reset(FALSE);
+  gen.setVersion("#version 120");
 
   SbBool storedinvalid = SoCacheElement::setInvalid(FALSE);
 
@@ -1760,6 +1761,10 @@ SoShadowGroupP::setFragmentShader(SoState * state)
       gen.addMainStatement("color += shadeFactor * diffuse.rgb * mydiffuse.rgb;");
       gen.addMainStatement("scolor += shadeFactor * gl_FrontMaterial.specular.rgb * specular.rgb;\n");
       gen.addMainStatement("color += ambient.rgb * gl_FrontMaterial.ambient.rgb;\n");
+      gen.addMainStatement(
+          "float dotNV = dot(normal, eye);\n"
+          "if (dotNV <= 0.)  {color = vec3(0.5 - 0.3*dotNV); scolor = vec3(0., 0., 0.);} \n"
+      );
     }
 
     if (perpixelother) {
@@ -2005,10 +2010,13 @@ void
 SoShadowLightCache::createVSMProgram(void)
 {
   SoShaderProgram * program = new SoShaderProgram;
+  program->setOverride(true); // Neo
   program->ref();
 
   SoVertexShader * vshader = new SoVertexShader;
+   vshader->setOverride(true);
   SoFragmentShader * fshader = new SoFragmentShader;
+   fshader->setOverride(true);
 
   program->shaderObject.set1Value(0, vshader);
   program->shaderObject.set1Value(1, fshader);
@@ -2017,6 +2025,7 @@ SoShadowLightCache::createVSMProgram(void)
   SoShaderGenerator & fgen = this->vsm_fragment_generator;
 
   vgen.reset(FALSE);
+  vgen.setVersion("#version 120");
 
   SbBool dirlight = this->light->isOfType(SoDirectionalLight::getClassTypeId());
 
@@ -2028,6 +2037,7 @@ SoShadowLightCache::createVSMProgram(void)
   vshader->sourceType = SoShaderObject::GLSL_PROGRAM;
 
   fgen.reset(FALSE);
+  fgen.setVersion("#version 120");
 #ifdef DISTRIBUTE_FACTOR
   SbString str;
   str.sprintf("const float DISTRIBUTE_FACTOR = %.1f;\n", DISTRIBUTE_FACTOR);

@@ -7,6 +7,7 @@ set(COIN_SHAPENODES_FILES
 	SoFaceSet.cpp
 	SoImage.cpp
 	SoIndexedFaceSet.cpp
+        SoIndexedFaceSetT.cpp
 	SoIndexedLineSet.cpp
 	SoIndexedMarkerSet.cpp
 	SoIndexedNurbsCurve.cpp

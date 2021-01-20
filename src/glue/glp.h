@@ -238,6 +238,7 @@ typedef void (APIENTRY * COIN_PFNGLDISABLECLIENTSTATEPROC)(GLenum array);
 typedef void (APIENTRY * COIN_PFNGLINTERLEAVEDARRAYSPROC)(GLenum format, GLsizei stride, const GLvoid * pointer);
 typedef void (APIENTRY * COIN_PFNGLDRAWARRAYSPROC)(GLenum mode, GLint first, GLsizei count);
 typedef void (APIENTRY * COIN_PFNGLDRAWELEMENTSPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
+typedef void (APIENTRY * COIN_PFNGLDRAWELEMENTSINSTANCEDPROC)(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount);
 typedef void (APIENTRY * COIN_PFNGLDRAWRANGEELEMENTSPROC)(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid * indices);
 typedef void (APIENTRY * COIN_PFNGLARRAYELEMENTPROC)(GLint i);
 
@@ -656,6 +657,7 @@ struct cc_glglue {
   COIN_PFNGLINTERLEAVEDARRAYSPROC glInterleavedArrays;
   COIN_PFNGLDRAWARRAYSPROC glDrawArrays;
   COIN_PFNGLDRAWELEMENTSPROC glDrawElements;
+  COIN_PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
   COIN_PFNGLDRAWRANGEELEMENTSPROC glDrawRangeElements;
   COIN_PFNGLARRAYELEMENTPROC glArrayElement;
 

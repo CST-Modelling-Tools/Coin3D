@@ -1217,6 +1217,7 @@ glglue_resolve_symbols(cc_glglue * w)
     w->glInterleavedArrays = (COIN_PFNGLINTERLEAVEDARRAYSPROC) PROC(w, glInterleavedArrays);
     w->glDrawArrays = (COIN_PFNGLDRAWARRAYSPROC) PROC(w, glDrawArrays);
     w->glDrawElements = (COIN_PFNGLDRAWELEMENTSPROC) PROC(w, glDrawElements);
+    w->glDrawElementsInstanced = (COIN_PFNGLDRAWELEMENTSINSTANCEDPROC) PROC(w, glDrawElementsInstanced);
     w->glArrayElement = (COIN_PFNGLARRAYELEMENTPROC) PROC(w, glArrayElement);
   }
   if (w->glVertexPointer) {
@@ -3416,6 +3417,15 @@ cc_glglue_glDrawElements(const cc_glglue * glue,
 {
   assert(glue->glDrawElements);
   glue->glDrawElements(mode, count, type, indices);
+}
+
+void
+cc_glglue_glDrawElementsInstanced(const cc_glglue * glue,
+                         GLenum mode, GLsizei count, GLenum type,
+                         const GLvoid * indices, GLsizei primcount)
+{
+  assert(glue->glDrawElementsInstanced);
+  glue->glDrawElementsInstanced(mode, count, type, indices, primcount);
 }
 
 void

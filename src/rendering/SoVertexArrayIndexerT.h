@@ -43,10 +43,10 @@
 
 class SoVBO;
 
-class SoVertexArrayIndexer {
+class SoVertexArrayIndexerT {
 public:
-  SoVertexArrayIndexer(void);
-  ~SoVertexArrayIndexer();
+  SoVertexArrayIndexerT(void);
+  ~SoVertexArrayIndexerT();
 
   void addTriangle(const int32_t v0,
                    const int32_t v1,
@@ -66,7 +66,7 @@ public:
   void endTarget(GLenum target);
 
   void close(void);
-  void render(const cc_glglue * glue, const SbBool renderasvbo, const uint32_t vbocontextid);
+  void render(const cc_glglue * glue, const SbBool renderasvbo, const uint32_t vbocontextid, int count = 1);
 
   int getNumVertices(void);
   int getNumIndices(void) const;
@@ -77,10 +77,10 @@ private:
   void addIndex(int32_t i);
   void sort_triangles(void);
   void sort_lines(void);
-  SoVertexArrayIndexer * getNext(void);
+  SoVertexArrayIndexerT * getNext(void);
 
   GLenum target;
-  SoVertexArrayIndexer * next;
+  SoVertexArrayIndexerT * next;
 
   int targetcounter;
   SbList <GLsizei> countarray;
