@@ -181,6 +181,7 @@
 /*!
 \class SbUniqueId SbBasic.h Inventor/SbBasic.h
 \brief SbUniqueId is an integer type for node identifiers.
+
 \ingroup base
 
 SbUniqueId is meant to be a "32/64 bit portable" way of defining an
@@ -791,7 +792,7 @@ SoNode::isOverride(void) const
 void
 SoNode::setNodeType(const NodeType type)
 {
-  // make sure we have enogh bits to store this type
+  // make sure we have enough bits to store this type
   assert((uint32_t) type <= FLAG_TYPEMASK);
   // clear old type
   this->clearStateFlags(FLAG_TYPEMASK);
