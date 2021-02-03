@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COIN_VERTEXARRAYINDEXER_H
+#define COIN_VERTEXARRAYINDEXER_H
 
 /**************************************************************************\
  * Copyright (c) Kongsberg Oil & Gas Technologies AS
@@ -89,3 +90,5 @@ private:
   SoVBO * vbo;
   SbBool use_shorts;
 };
+
+#endif // COIN_VERTEXARRAYINDEXER_H
