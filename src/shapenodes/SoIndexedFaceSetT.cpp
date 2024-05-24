@@ -320,8 +320,7 @@ SoIndexedFaceSetT::~SoIndexedFaceSetT()
 /*!
   \copydetails SoNode::initClass(void)
 */
-void
-SoIndexedFaceSetT::initClass(void)
+void SoIndexedFaceSetT::initClass(void)
 {
   SO_NODE_INTERNAL_INIT_CLASS(SoIndexedFaceSetT, SO_FROM_INVENTOR_1|SoNode::VRML1);
 }

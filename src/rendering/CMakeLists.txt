@@ -14,6 +14,7 @@ set(COIN_RENDERING_FILES
 	SoOffscreenWGLData.cpp
 	SoVBO.cpp
 	SoVertexArrayIndexer.cpp
+	SoVertexArrayIndexerT.cpp
 	CoinOffscreenGLCanvas.cpp
 )
 
